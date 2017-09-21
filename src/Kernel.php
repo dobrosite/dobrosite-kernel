@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
  *
  * @since 0.1
  */
-class Kernel extends SymfonyKernel
+class Kernel extends SymfonyKernel implements KernelInterface
 {
     /**
      * Возвращает массив пакетов, которые надо зарегистрировать в ядре.
