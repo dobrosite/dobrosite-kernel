@@ -1,0 +1,22 @@
+{
+    "name": "dobrosite/dobrosite-kernel",
+    "description": "DobroSite CMS Kernel",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Михаил Красильников",
+            "email": "m.krasilnikov@dobro.site"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"DobroSite\\CMS\\":"src"}
+    },
+    "require": {
+        "php": "7.*",
+        "symfony/config": "^3.3",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/http-foundation": "^3.3",
+        "symfony/http-kernel": "^3.3"
+    }
+}
