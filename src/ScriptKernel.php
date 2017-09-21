@@ -40,7 +40,7 @@ class ScriptKernel implements KernelInterface
      */
     public function __construct(string $environment = 'prod', bool $debug = false)
     {
-        $this->kernel = new Kernel($environment, $debug);
+        $this->kernel = $this->createKernel($environment, $debug);
         $this->kernel->boot();
     }
 
@@ -151,6 +151,21 @@ class ScriptKernel implements KernelInterface
     public function unserialize($serialized)
     {
         $this->methodCanNotBeExecuted('Kernel::unserialize');
+    }
+
+    /**
+     * Создаёт новое ядро.
+     *
+     * @param string $environment Имя окружения.
+     * @param bool   $debug       Управление режимом отладки.
+     *
+     * @return KernelInterface
+     *
+     * @since 0.1
+     */
+    protected function createKernel(string $environment, bool $debug): KernelInterface
+    {
+        return new Kernel($environment, $debug);
     }
 
     /**
