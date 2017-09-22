@@ -19,6 +19,16 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Обёртка для использования ядра системы сценариях.
  *
+ * Этот класс позволяет сценариям легко поучить доступ к рабочему ядру.
+ *
+ * Пример:
+ *
+ * ```php
+ * require __DIR__ .'/vendor/autoload.php';
+ * $kernel = new ScriptKernel();
+ * $kernel->getContainer()->get('foo.bar')->...
+ * ```
+ *
  * @since 0.1
  */
 class ScriptKernel implements KernelInterface
