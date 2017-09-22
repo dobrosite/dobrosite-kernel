@@ -10,7 +10,7 @@
         }
     ],
     "autoload": {
-        "psr-4": {"DobroSite\\CMS\\":"src"}
+        "psr-4": {"DobroSite\\CMS\\Kernel\\":"src"}
     },
     "require": {
         "php": "7.*",

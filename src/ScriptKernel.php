@@ -9,9 +9,9 @@
  */
 declare(strict_types=1);
 
-namespace DobroSite\CMS;
+namespace DobroSite\CMS\Kernel;
 
-use DobroSite\CMS\Exception\LogicException;
+use DobroSite\CMS\Kernel\Exception\LogicException;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpFoundation\Request;

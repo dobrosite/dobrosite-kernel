@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace DobroSite\CMS;
+namespace DobroSite\CMS\Kernel;
 
 use Symfony\Component\HttpKernel\KernelInterface as SymfonyKernelInterface;
 

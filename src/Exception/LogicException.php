@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace DobroSite\CMS\Exception;
+namespace DobroSite\CMS\Kernel\Exception;
 
 /**
  * Ошибка в логике программы.

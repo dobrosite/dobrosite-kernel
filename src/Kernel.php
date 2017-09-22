@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace DobroSite\CMS;
+namespace DobroSite\CMS\Kernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
