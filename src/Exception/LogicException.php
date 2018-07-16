@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Система управления сайтами «Добро.сайт»
  *
@@ -7,7 +8,6 @@
  *
  * @license   http://opensource.org/licenses/MIT MIT
  */
-declare(strict_types=1);
 
 namespace DobroSite\CMS\Kernel\Exception;
 

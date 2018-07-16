@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Система управления сайтами «Добро.сайт»
  *
@@ -7,7 +8,6 @@
  *
  * @license   http://opensource.org/licenses/MIT MIT
  */
-declare(strict_types=1);
 
 namespace DobroSite\CMS\Kernel;
 
@@ -22,6 +22,20 @@ use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
  */
 class Kernel extends SymfonyKernel implements KernelInterface
 {
+    /**
+     * Создаёт ядро.
+     *
+     * @param string $environment Имя окружения.
+     * @param bool   $debug       Управление режимом отладки.
+     *
+     * @since 0.1
+     */
+    public function __construct($environment, $debug)
+    {
+        parent::__construct($environment, $debug);
+        $this->rootDir = $this->getProjectDir();
+    }
+
     /**
      * Возвращает массив пакетов, которые надо зарегистрировать в ядре.
      *

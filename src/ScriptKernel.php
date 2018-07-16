@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Система управления сайтами «Добро.сайт»
  *
@@ -7,7 +8,6 @@
  *
  * @license   http://opensource.org/licenses/MIT MIT
  */
-declare(strict_types=1);
 
 namespace DobroSite\CMS\Kernel;
 
@@ -17,16 +17,16 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Обёртка для использования ядра системы сценариях.
+ * Обёртка для использования ядра системы в сценариях.
  *
  * Этот класс позволяет сценариям легко поучить доступ к рабочему ядру.
  *
  * Пример:
  *
  * ```php
- * require __DIR__ .'/vendor/autoload.php';
+ * require 'vendor/autoload.php';
  * $kernel = new ScriptKernel();
- * $kernel->getContainer()->get('foo.bar')->...
+ * $kernel->getContainer()->get('foo.bar')->…
  * ```
  *
  * @since 0.1
@@ -48,7 +48,7 @@ class ScriptKernel implements KernelInterface
      *
      * @since 0.1
      */
-    public function __construct(string $environment = 'prod', bool $debug = false)
+    public function __construct($environment = 'prod', $debug = false)
     {
         $this->kernel = $this->createKernel($environment, $debug);
         $this->kernel->boot();
@@ -86,7 +86,7 @@ class ScriptKernel implements KernelInterface
      *
      * @since 0.1
      */
-    public function getContainer(): ContainerInterface
+    public function getContainer()
     {
         return $this->kernel->getContainer();
     }
@@ -173,7 +173,7 @@ class ScriptKernel implements KernelInterface
      *
      * @since 0.1
      */
-    protected function createKernel(string $environment, bool $debug): KernelInterface
+    protected function createKernel($environment, $debug)
     {
         return new Kernel($environment, $debug);
     }
@@ -185,7 +185,7 @@ class ScriptKernel implements KernelInterface
      *
      * @throws LogicException
      */
-    private function methodCanNotBeExecuted(string $method)
+    private function methodCanNotBeExecuted($method)
     {
         throw new LogicException(
             sprintf('Method "%s()" can not be executed in the script mode', $method)

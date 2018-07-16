@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Система управления сайтами «Добро.сайт»
  *
@@ -7,7 +8,6 @@
  *
  * @license   http://opensource.org/licenses/MIT MIT
  */
-declare(strict_types=1);
 
 namespace DobroSite\CMS\Kernel;
 
@@ -36,7 +36,7 @@ class Bootloader
      *
      * @since 0.1
      */
-    public function execute(string $environment = null, bool $debug = null)
+    public function execute($environment = null, $debug = null)
     {
         if ($environment === null) {
             $environment = (string) getenv('DOBROSITE_ENV');
