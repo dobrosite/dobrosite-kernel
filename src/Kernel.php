@@ -23,6 +23,13 @@ use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 class Kernel extends SymfonyKernel implements KernelInterface
 {
     /**
+     * Путь к корневой папке приложения.
+     *
+     * @var string|null
+     */
+    private $projectDir;
+
+    /**
      * Создаёт ядро.
      *
      * @param string $environment Имя окружения.
@@ -34,6 +41,30 @@ class Kernel extends SymfonyKernel implements KernelInterface
     {
         parent::__construct($environment, $debug);
         $this->rootDir = $this->getProjectDir();
+    }
+
+    /**
+     * Возвращает корневую папку приложения (папку, где лежит composer.lock).
+     *
+     * @return string
+     *
+     * @since 0.1
+     */
+    public function getProjectDir()
+    {
+        if ($this->projectDir === null) {
+            $r = new \ReflectionObject($this);
+            $dir = $rootDir = dirname($r->getFileName());
+            while (!file_exists($dir.'/composer.lock')) {
+                if ($dir === dirname($dir)) {
+                    return $this->projectDir = $rootDir;
+                }
+                $dir = dirname($dir);
+            }
+            $this->projectDir = $dir;
+        }
+
+        return $this->projectDir;
     }
 
     /**
