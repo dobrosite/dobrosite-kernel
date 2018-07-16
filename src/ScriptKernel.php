@@ -51,7 +51,6 @@ class ScriptKernel implements KernelInterface
     public function __construct($environment = 'prod', $debug = false)
     {
         $this->kernel = $this->createKernel($environment, $debug);
-        $this->kernel->boot();
     }
 
     public function boot()
@@ -61,11 +60,13 @@ class ScriptKernel implements KernelInterface
 
     public function getBundle($name, $first = true)
     {
+        $this->kernel->boot();
         return $this->kernel->getBundle($name, $first);
     }
 
     public function getBundles()
     {
+        $this->kernel->boot();
         return $this->kernel->getBundles();
     }
 
@@ -88,6 +89,7 @@ class ScriptKernel implements KernelInterface
      */
     public function getContainer()
     {
+        $this->kernel->boot();
         return $this->kernel->getContainer();
     }
 
@@ -125,6 +127,7 @@ class ScriptKernel implements KernelInterface
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
+        $this->kernel->boot();
         $this->methodCanNotBeExecuted('Kernel::handle');
     }
 
@@ -135,6 +138,7 @@ class ScriptKernel implements KernelInterface
 
     public function locateResource($name, $dir = null, $first = true)
     {
+        $this->kernel->boot();
         return $this->kernel->locateResource($name, $dir, $first);
     }
 
