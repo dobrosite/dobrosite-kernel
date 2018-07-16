@@ -3,7 +3,7 @@
 /**
  * Система управления сайтами «Добро.сайт»
  *
- * @copyright 2017, Добро.сайт
+ * @copyright 2018, Добро.сайт
  * @author    Михаил Красильников <m.krasilnikov@dobro.site>
  *
  * @license   http://opensource.org/licenses/MIT MIT
@@ -23,6 +23,20 @@ use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 class Kernel extends SymfonyKernel implements KernelInterface
 {
     /**
+     * Путь к папке настроек.
+     *
+     * @var string|null
+     */
+    private $configDir;
+
+    /**
+     * Шаблон имени главного файла конфигурации.
+     *
+     * @var string
+     */
+    private $configFileTemplate = 'config.%s.yaml';
+
+    /**
      * Путь к корневой папке приложения.
      *
      * @var string|null
@@ -32,15 +46,47 @@ class Kernel extends SymfonyKernel implements KernelInterface
     /**
      * Создаёт ядро.
      *
-     * @param string $environment Имя окружения.
-     * @param bool   $debug       Управление режимом отладки.
+     * Аргумент $configuration главным образом нужен при встраивании ядра в другую систему, чтобы
+     * описать её конфигурацию.
+     *
+     * @param string        $environment   Имя окружения.
+     * @param bool          $debug         Управление режимом отладки.
+     * @param Configuration $configuration Конфигурация ядра.
      *
      * @since 0.1
      */
-    public function __construct($environment, $debug)
+    public function __construct($environment, $debug, Configuration $configuration = null)
     {
         parent::__construct($environment, $debug);
+
+        if ($configuration !== null) {
+            if ($configuration->getProjectDir() !== null) {
+                $this->projectDir = $configuration->getProjectDir();
+            }
+            if ($configuration->getConfigDir() !== null) {
+                $this->configDir = $configuration->getConfigDir();
+            }
+            if ($configuration->getConfigFileTemplate() !== null) {
+                $this->configFileTemplate = $configuration->getConfigFileTemplate();
+            }
+        }
         $this->rootDir = $this->getProjectDir();
+    }
+
+    /**
+     * Возвращает путь к папке настроек.
+     *
+     * @return string
+     *
+     * @since 0.1
+     */
+    public function getConfigDir()
+    {
+        if ($this->configDir === null) {
+            $this->configDir = $this->getRootDir().'/app/config';
+        }
+
+        return $this->configDir;
     }
 
     /**
@@ -85,8 +131,12 @@ class Kernel extends SymfonyKernel implements KernelInterface
      * @param LoaderInterface $loader Загрузчик конфигурации.
      *
      * @since 0.1
+     *
+     * @throws \Exception
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
+        $filename = sprintf($this->configFileTemplate, $this->getEnvironment());
+        $loader->load($this->getConfigDir().'/'.$filename);
     }
 }
