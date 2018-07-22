@@ -147,7 +147,7 @@ class Kernel extends SymfonyKernel implements KernelInterface
         $loader->load($this->getConfigDir().'/'.$filename);
 
         foreach ($this->configuration->getExtraConfigFiles() as $filename) {
-            $loader->load($this->getConfigDir().'/'.$filename);
+            $loader->load($filename);
         }
     }
 }
