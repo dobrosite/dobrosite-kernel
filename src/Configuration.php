@@ -38,11 +38,34 @@ class Configuration
     private $configFileTemplate;
 
     /**
+     * Список дополнительных файлов конфигурации.
+     *
+     * @var string[]
+     */
+    private $extraConfigFiles = [];
+
+    /**
      * Корневая папка приложения.
      *
      * @var string|null
      */
     private $projectDir;
+
+    /**
+     * Добавляет дополнительный файл конфигурации.
+     *
+     * @param string $path
+     *
+     * @return $this
+     *
+     * @since 0.1
+     */
+    public function addExtraConfigFile($path)
+    {
+        $this->extraConfigFiles[] = $path;
+
+        return $this;
+    }
 
     /**
      * Возвращает папку настроек.
@@ -66,6 +89,18 @@ class Configuration
     public function getConfigFileTemplate()
     {
         return $this->configFileTemplate;
+    }
+
+    /**
+     * Возвращает список дополнительных файлов конфигурации.
+     *
+     * @return string[]
+     *
+     * @since 0.1
+     */
+    public function getExtraConfigFiles()
+    {
+        return $this->extraConfigFiles;
     }
 
     /**
@@ -99,7 +134,7 @@ class Configuration
     /**
      * Задаёт шаблон имени главного файла конфигурации.
      *
-     * Используйте «%s» для указания места подстановки имени окружения (prod, test, dev…).s
+     * Используйте «%s» для указания места подстановки имени окружения (prod, test, dev…).
      *
      * @param string $configFileTemplate
      *

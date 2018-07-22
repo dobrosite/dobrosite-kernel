@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 class Kernel extends SymfonyKernel implements KernelInterface
 {
     /**
-     * Путь к папке настроек.
+     * Путь к папке конфигурации приложения.
      *
      * @var string|null
      */
@@ -35,6 +35,13 @@ class Kernel extends SymfonyKernel implements KernelInterface
      * @var string
      */
     private $configFileTemplate = 'config.%s.yaml';
+
+    /**
+     * Конфигурация ядра.
+     *
+     * @var Configuration
+     */
+    private $configuration;
 
     /**
      * Путь к корневой папке приложения.
@@ -59,16 +66,16 @@ class Kernel extends SymfonyKernel implements KernelInterface
     {
         parent::__construct($environment, $debug);
 
-        if ($configuration !== null) {
-            if ($configuration->getProjectDir() !== null) {
-                $this->projectDir = $configuration->getProjectDir();
-            }
-            if ($configuration->getConfigDir() !== null) {
-                $this->configDir = $configuration->getConfigDir();
-            }
-            if ($configuration->getConfigFileTemplate() !== null) {
-                $this->configFileTemplate = $configuration->getConfigFileTemplate();
-            }
+        $this->configuration = $configuration ?: new Configuration();
+
+        if ($this->configuration->getProjectDir() !== null) {
+            $this->projectDir = $this->configuration->getProjectDir();
+        }
+        if ($this->configuration->getConfigDir() !== null) {
+            $this->configDir = $this->configuration->getConfigDir();
+        }
+        if ($this->configuration->getConfigFileTemplate() !== null) {
+            $this->configFileTemplate = $this->configuration->getConfigFileTemplate();
         }
         $this->rootDir = $this->getProjectDir();
     }
@@ -138,5 +145,9 @@ class Kernel extends SymfonyKernel implements KernelInterface
     {
         $filename = sprintf($this->configFileTemplate, $this->getEnvironment());
         $loader->load($this->getConfigDir().'/'.$filename);
+
+        foreach ($this->configuration->getExtraConfigFiles() as $filename) {
+            $loader->load($this->getConfigDir().'/'.$filename);
+        }
     }
 }
