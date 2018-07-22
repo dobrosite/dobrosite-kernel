@@ -13,10 +13,10 @@
         "psr-4": {"DobroSite\\CMS\\Kernel\\":"src"}
     },
     "require": {
-        "php": ">=5.5",
-        "symfony/config": "^3.3",
-        "symfony/dependency-injection": "^3.3",
-        "symfony/http-foundation": "^3.3",
-        "symfony/http-kernel": "^3.3"
+        "php": ">=5.5.9",
+        "symfony/config": "^3.4|^4.0",
+        "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/http-foundation": "^3.4|^4.0",
+        "symfony/http-kernel": "^3.4|^4.0"
     }
 }
