@@ -150,4 +150,19 @@ class Kernel extends SymfonyKernel implements KernelInterface
             $loader->load($filename);
         }
     }
+
+    /**
+     * Возвращает параметры ядра.
+     *
+     * @return array
+     */
+    protected function getKernelParameters()
+    {
+        return array_merge(
+            array(
+                'kernel.config_dir' => $this->getConfigDir(),
+            ),
+            parent::getKernelParameters()
+        );
+    }
 }
