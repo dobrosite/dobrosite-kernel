@@ -20,12 +20,4 @@ use Symfony\Component\HttpKernel\KernelInterface as SymfonyKernelInterface;
  */
 interface KernelInterface extends SymfonyKernelInterface
 {
-    /**
-     * Возвращает путь к папке настроек.
-     *
-     * @return string
-     *
-     * @since 0.1
-     */
-    public function getConfigDir();
 }

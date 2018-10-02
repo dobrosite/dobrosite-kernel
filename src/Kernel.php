@@ -11,16 +11,12 @@
 
 namespace DobroSite\CMS\Kernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
-
 /**
  * Ядро системы.
  *
  * @since 0.1
  */
-class Kernel extends SymfonyKernel implements KernelInterface
+class Kernel extends AbstractKernel
 {
     /**
      * Путь к папке конфигурации приложения.
@@ -121,34 +117,24 @@ class Kernel extends SymfonyKernel implements KernelInterface
     }
 
     /**
-     * Возвращает массив пакетов, которые надо зарегистрировать в ядре.
+     * Возвращает имена (включая путь) конфигурационных файлов.
      *
-     * @return BundleInterface[]
+     * @return string[]
      *
-     * @since 0.1
+     * @since 0.3
      */
-    public function registerBundles()
+    protected function getConfigurationFilenames()
     {
-        return [];
-    }
+        $filenames = parent::getConfigurationFilenames();
 
-    /**
-     * Загружает конфигурацию контейнера.
-     *
-     * @param LoaderInterface $loader Загрузчик конфигурации.
-     *
-     * @since 0.1
-     *
-     * @throws \Exception
-     */
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $filename = sprintf($this->configFileTemplate, $this->getEnvironment());
-        $loader->load($this->getConfigDir().'/'.$filename);
+        $filenames [] = $this->getConfigDir().'/'
+            .sprintf($this->configFileTemplate, $this->getEnvironment());
 
         foreach ($this->configuration->getExtraConfigFiles() as $filename) {
-            $loader->load($filename);
+            $filenames[] = $filename;
         }
+
+        return $filenames;
     }
 
     /**
@@ -159,9 +145,9 @@ class Kernel extends SymfonyKernel implements KernelInterface
     protected function getKernelParameters()
     {
         return array_merge(
-            array(
+            [
                 'kernel.config_dir' => $this->getConfigDir(),
-            ),
+            ],
             parent::getKernelParameters()
         );
     }

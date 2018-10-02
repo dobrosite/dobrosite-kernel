@@ -1,0 +1,15 @@
+@startuml
+
+actor Пользователь
+boundary index.php
+
+Пользователь -> index.php : Запрос
+index.php -> Приложение
+Приложение -> Kernel
+Приложение <- Kernel
+Приложение -> Kernel
+Приложение <- Kernel
+index.php <- Приложение
+Пользователь <- index.php : Ответ
+
+@enduml
