@@ -73,7 +73,6 @@ class Kernel extends AbstractKernel
         if ($this->configuration->getConfigFileTemplate() !== null) {
             $this->configFileTemplate = $this->configuration->getConfigFileTemplate();
         }
-        $this->rootDir = $this->getProjectDir();
     }
 
     /**
@@ -114,27 +113,6 @@ class Kernel extends AbstractKernel
         }
 
         return $this->projectDir;
-    }
-
-    /**
-     * Возвращает имена (включая путь) конфигурационных файлов.
-     *
-     * @return string[]
-     *
-     * @since 0.3
-     */
-    protected function getConfigurationFilenames()
-    {
-        $filenames = parent::getConfigurationFilenames();
-
-        $filenames [] = $this->getConfigDir().'/'
-            .sprintf($this->configFileTemplate, $this->getEnvironment());
-
-        foreach ($this->configuration->getExtraConfigFiles() as $filename) {
-            $filenames[] = $filename;
-        }
-
-        return $filenames;
     }
 
     /**

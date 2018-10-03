@@ -11,13 +11,11 @@
 
 namespace DobroSite\CMS\Kernel;
 
-use Symfony\Component\HttpKernel\KernelInterface as SymfonyKernelInterface;
-
 /**
  * Интерфейс ядра системы.
  *
  * @since 0.1
  */
-interface KernelInterface extends SymfonyKernelInterface
+interface KernelInterface extends \Symfony\Component\HttpKernel\KernelInterface
 {
 }
