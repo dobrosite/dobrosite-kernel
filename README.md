@@ -35,11 +35,14 @@ $service = ScriptKernel::getInstance()->getContainer()->get('...');
 - папка журналов (`Kernel::getLogDir()`) — `<системная папка для временных файлов>/<хэш sha1 от
   корневой папки>/logs`;
 - файлы настройки:
-  - `config/services.yaml`.
+  - `config/services.yaml`;
+  - `config/services_<имя окружения>.yaml`.
 
 ## Собственная конфигурация ядра
 
-Создайте файл PHP с произвольным именем (например `bootstrap.php`) и содержимым следующего вида:
+Если значения по умолчанию, указанные выше, вам не подходят, вы можете переопределить их при помощи
+класса [Configuration](src/Configuration.php). Для этого рекомендуется создать отдельный, например
+с именем `bootstrap.php` следующего вида:
 
 ```php
 <?php
@@ -52,7 +55,17 @@ $configuration = new Configuration();
 $configuration
     ->setConfigDir(__DIR__.'/config');
 
-ScriptKernel::init($configuration);
+ScriptKernel::setConfiguration($configuration);
 ```
 
-Теперь вы можете подключить его ко всем нужным файлам, чтобы получить доступ к ядру:
+Теперь вы можете подключить его ко всем нужным файлам вместо `autoload.php`:
+
+```php
+<?php
+
+use DobroSite\CMS\Kernel\ScriptKernel;
+
+require_once 'bootstrap.php';
+
+$service = ScriptKernel::getInstance()->getContainer()->get('...');
+```

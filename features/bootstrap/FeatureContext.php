@@ -11,6 +11,13 @@ use Symfony\Component\Process\Process;
 class FeatureContext implements Context
 {
     /**
+     * Код завершения команды.
+     *
+     * @var int|null
+     */
+    private $exitCode;
+
+    /**
      * Стандартный вывод ошибок.
      *
      * @var string
@@ -35,8 +42,19 @@ class FeatureContext implements Context
     {
         $process = new Process($command);
         $process->run();
+        $this->exitCode = $process->getExitCode();
         $this->stdout = $process->getOutput();
         $this->stderr = $process->getErrorOutput();
+    }
+
+    /**
+     * @Then I should not see errors
+     *
+     * @return void
+     */
+    public function iShouldNoSeeErrors()
+    {
+        Assert::assertEmpty($this->stderr, $this->stderr);
     }
 
     /**

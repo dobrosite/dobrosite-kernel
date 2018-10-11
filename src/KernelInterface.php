@@ -18,4 +18,12 @@ namespace DobroSite\CMS\Kernel;
  */
 interface KernelInterface extends \Symfony\Component\HttpKernel\KernelInterface
 {
+    /**
+     * Возвращает путь к папке настроек.
+     *
+     * @return string
+     *
+     * @since 0.3
+     */
+    public function getConfigDir();
 }

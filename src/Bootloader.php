@@ -38,12 +38,15 @@ class Bootloader
      */
     public function execute($environment = null, $debug = null)
     {
+        $configuration = new Configuration();
+
         if ($environment === null) {
             $environment = (string) getenv('DOBROSITE_ENV');
             if ($environment === '') {
                 $environment = 'prod';
             }
         }
+        $configuration->setEnvironment($environment);
 
         if ($debug === null) {
             $debug = (bool) getenv('DOBROSITE_DEBUG');
@@ -51,9 +54,10 @@ class Bootloader
 
         if ($debug) {
             Debug::enable();
+            $configuration->enableDebug();
         }
 
-        $kernel = new Kernel($environment, $debug);
+        $kernel = new ConfigurableKernel($configuration);
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $response->send();

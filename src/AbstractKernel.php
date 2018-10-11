@@ -27,14 +27,21 @@ abstract class AbstractKernel extends Kernel implements KernelInterface
      *
      * @var string|null
      */
-    private $cacheDir;
+    protected $cacheDir;
+
+    /**
+     * Путь к папке конфигурации приложения.
+     *
+     * @var string|null
+     */
+    protected $configDir;
 
     /**
      * Путь к папке журналов.
      *
      * @var string|null
      */
-    private $logDir;
+    protected $logDir;
 
     /**
      * Возвращает путь к папке кэша.
@@ -48,6 +55,22 @@ abstract class AbstractKernel extends Kernel implements KernelInterface
         }
 
         return $this->cacheDir.'/'.$this->getEnvironment();
+    }
+
+    /**
+     * Возвращает путь к папке настроек.
+     *
+     * @return string
+     *
+     * @since 0.3
+     */
+    public function getConfigDir()
+    {
+        if ($this->configDir === null) {
+            $this->configDir = $this->getRootDir().'/config';
+        }
+
+        return $this->configDir;
     }
 
     /**
@@ -109,7 +132,6 @@ abstract class AbstractKernel extends Kernel implements KernelInterface
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $filenames = $this->getConfigurationFilenames();
-        print_r($filenames);
         foreach ($filenames as $filename) {
             $loader->load($filename);
         }
@@ -124,8 +146,13 @@ abstract class AbstractKernel extends Kernel implements KernelInterface
      */
     protected function getConfigurationFilenames()
     {
-        return [
-            $this->getRootDir().'/config/services.yaml'
-        ];
+        $files = [$this->getConfigDir().'/services.yaml'];
+
+        $path = $this->getConfigDir().'/services_'.$this->getEnvironment().'.yaml';
+        if (file_exists($path)) {
+            $files[] = $path;
+        }
+
+        return $files;
     }
 }

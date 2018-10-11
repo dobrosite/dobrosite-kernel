@@ -16,13 +16,20 @@ namespace DobroSite\CMS\Kernel;
  *
  * Т. к. ядро предполагает возможность встраивания в другие системы, его возможности по
  * автоматической настройке ограничены, ведь о целевой системе заранее ничего не известно. Поэтому
- * ряд важных параметров вынесен в отдельный объект (DTO), позволяющий задать конфигурацию той
- * системы, куда встраивается ядро.
+ * ряд важных параметров вынесен в отдельный объект, позволяющий задать конфигурацию той системы,
+ * куда встраивается ядро.
  *
  * @since 0.1
  */
 class Configuration
 {
+    /**
+     * Папка кэша.
+     *
+     * @var string|null
+     */
+    private $cacheDir;
+
     /**
      * Папка настроек.
      *
@@ -38,6 +45,20 @@ class Configuration
     private $configFileTemplate;
 
     /**
+     * Флаг режима отладки.
+     *
+     * @var bool
+     */
+    private $debug = false;
+
+    /**
+     * Имя окружения.
+     *
+     * @var string
+     */
+    private $environment = 'prod';
+
+    /**
      * Список дополнительных файлов конфигурации.
      *
      * @var string[]
@@ -45,11 +66,18 @@ class Configuration
     private $extraConfigFiles = [];
 
     /**
+     * Папка журналов.
+     *
+     * @var string|null
+     */
+    private $logDir;
+
+    /**
      * Корневая папка приложения.
      *
      * @var string|null
      */
-    private $projectDir;
+    private $rootDir;
 
     /**
      * Добавляет дополнительный файл конфигурации.
@@ -65,6 +93,32 @@ class Configuration
         $this->extraConfigFiles[] = $path;
 
         return $this;
+    }
+
+    /**
+     * Включает режим отладки.
+     *
+     * @return $this
+     *
+     * @since 0.3
+     */
+    public function enableDebug()
+    {
+        $this->debug = true;
+
+        return $this;
+    }
+
+    /**
+     * Возвращает путь к папке кэша.
+     *
+     * @return string|null
+     *
+     * @since 0.3
+     */
+    public function getCacheDir()
+    {
+        return $this->cacheDir;
     }
 
     /**
@@ -92,6 +146,18 @@ class Configuration
     }
 
     /**
+     * Возвращает имя окружения.
+     *
+     * @return string
+     *
+     * @since 0.3
+     */
+    public function getEnvironment()
+    {
+        return $this->environment;
+    }
+
+    /**
      * Возвращает список дополнительных файлов конфигурации.
      *
      * @return string[]
@@ -104,15 +170,55 @@ class Configuration
     }
 
     /**
+     * Возвращает путь к папке журналов.
+     *
+     * @return string|null
+     *
+     * @since 0.3
+     */
+    public function getLogDir()
+    {
+        return $this->logDir;
+    }
+
+    /**
      * Возвращает корневую папку приложения.
      *
      * @return string|null
      *
      * @since 0.1
      */
-    public function getProjectDir()
+    public function getRootDir()
     {
-        return $this->projectDir;
+        return $this->rootDir;
+    }
+
+    /**
+     * Возвращает состояние режима отладки.
+     *
+     * @return bool
+     *
+     * @since 0.3
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * Задаёт путь к папке кэша.
+     *
+     * @param string $cacheDir
+     *
+     * @return $this
+     *
+     * @since 0.3
+     */
+    public function setCacheDir($cacheDir)
+    {
+        $this->cacheDir = $cacheDir;
+
+        return $this;
     }
 
     /**
@@ -150,17 +256,49 @@ class Configuration
     }
 
     /**
+     * Задаёт имя окружения.
+     *
+     * @param string $environment
+     *
+     * @return $this
+     *
+     * @since 0.3
+     */
+    public function setEnvironment($environment)
+    {
+        $this->environment = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Задаёт путь к папке журналов..
+     *
+     * @param string $logDir
+     *
+     * @return $this
+     *
+     * @since 0.3
+     */
+    public function setLogDir($logDir)
+    {
+        $this->logDir = $logDir;
+
+        return $this;
+    }
+
+    /**
      * Задаёт корневую папку приложения.
      *
-     * @param string $projectDir
+     * @param string $rootDir
      *
      * @return $this
      *
      * @since 0.1
      */
-    public function setProjectDir($projectDir)
+    public function setRootDir($rootDir)
     {
-        $this->projectDir = $projectDir;
+        $this->rootDir = $rootDir;
 
         return $this;
     }

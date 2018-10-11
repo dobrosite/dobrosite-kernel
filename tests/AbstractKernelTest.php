@@ -30,12 +30,20 @@ class AbstractKernelTest extends TestCase
     }
 
     /**
-     * По умолчанию метод registerContainerConfiguration не должен регистрировать ничего.
+     * По умолчанию метод registerContainerConfiguration должен загружать два файла.
      */
     public function testRegisterContainerConfigurationDefault()
     {
+        $configDir = dirname(__DIR__).'/config';
+
         $loader = $this->createMock(LoaderInterface::class);
-        $loader->expects(self::never())->method('load');
+        $loader
+            ->expects(self::exactly(2))
+            ->method('load')
+            ->withConsecutive(
+                [$configDir.'/services.yaml', null],
+                [$configDir.'/services_dev.yaml', null]
+            );
 
         $kernel = $this->getMockForAbstractClass(AbstractKernel::class, ['dev', true]);
         $kernel->registerContainerConfiguration($loader);

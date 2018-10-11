@@ -29,6 +29,13 @@ namespace DobroSite\CMS\Kernel;
 final class ScriptKernel
 {
     /**
+     * Конфигурация ядра.
+     *
+     * @var Configuration|null
+     */
+    private static $configuration;
+
+    /**
      * Рабочий экземпляр ядра.
      *
      * @var KernelInterface
@@ -45,11 +52,25 @@ final class ScriptKernel
     public static function getInstance()
     {
         if (self::$kernel === null) {
-            self::$kernel = new Kernel('prod', false);
+            self::$kernel = new ConfigurableKernel(self::$configuration);
             self::$kernel->boot();
         }
 
         return self::$kernel;
+    }
+
+    /**
+     * Задаёт конфигурацию ядра.
+     *
+     * @param Configuration $configuration
+     *
+     * @return void
+     *
+     * @since 0.3
+     */
+    public static function setConfiguration(Configuration $configuration)
+    {
+        self::$configuration = $configuration;
     }
 
     /**
