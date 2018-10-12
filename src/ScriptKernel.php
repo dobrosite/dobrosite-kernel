@@ -74,6 +74,16 @@ final class ScriptKernel
     }
 
     /**
+     * Задаёт используемое ядро.
+     *
+     * @param KernelInterface $kernel
+     */
+    public static function setKernel(KernelInterface $kernel)
+    {
+        self::$kernel = $kernel;
+    }
+
+    /**
      * Запрещаем создавать экземпляры класса.
      */
     private function __construct()
