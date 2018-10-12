@@ -12,5 +12,5 @@ Feature: Kernel with configuration
     Cache directory: {CWD}/example/configuration/cache/test
     Logs directory: {CWD}/example/configuration/logs
 
-    Service output: Warning
+    Service output: I am "test" service!
     """

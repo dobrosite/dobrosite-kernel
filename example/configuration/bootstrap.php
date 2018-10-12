@@ -16,6 +16,7 @@ $configuration
     ->setRootDir(__DIR__)
     ->setCacheDir(__DIR__.'/cache')
     ->setLogDir(__DIR__.'/logs')
-    ->setConfigDir(__DIR__.'/conf');
+    ->setConfigDir(__DIR__.'/conf')
+    ->addConfigFile('services.yaml');
 
 ScriptKernel::setConfiguration($configuration);

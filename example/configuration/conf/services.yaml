@@ -6,4 +6,4 @@ services:
 
   PHPUnit\Framework\Warning:
     arguments:
-      $message: 'I am "prod" service!'
+      $message: 'I am "test" service!'
