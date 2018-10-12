@@ -5,7 +5,6 @@
  */
 
 use DobroSite\CMS\Kernel\ScriptKernel;
-use PHPUnit\Framework\Warning;
 
 // Подключение загрузчика классов Composer — единственное что требуется начала работы с ядром.
 require dirname(dirname(__DIR__)).'/vendor/autoload.php';
@@ -20,4 +19,4 @@ printf("Root directory: %s\n", $kernel->getRootDir());
 printf("Cache directory: %s\n", $kernel->getCacheDir());
 printf("Logs directory: %s\n", $kernel->getLogDir());
 echo PHP_EOL;
-printf("Service output: %s\n", $kernel->getContainer()->get(Warning::class)->getMessage());
+printf("Service output: %s\n", $kernel->getContainer()->get('test_service')->getMessage());
