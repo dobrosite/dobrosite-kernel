@@ -12,7 +12,6 @@
 namespace DobroSite\CMS\Kernel;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Config\Loader\LoaderInterface;
 
 /**
  * Тесты основы ядра приложения.
@@ -27,25 +26,5 @@ class AbstractKernelTest extends TestCase
         $kernel = $this->getMockForAbstractClass(AbstractKernel::class, ['dev', true]);
 
         self::assertEquals([], $kernel->registerBundles());
-    }
-
-    /**
-     * По умолчанию метод registerContainerConfiguration должен загружать два файла.
-     */
-    public function testRegisterContainerConfigurationDefault()
-    {
-        $configDir = dirname(__DIR__).'/config';
-
-        $loader = $this->createMock(LoaderInterface::class);
-        $loader
-            ->expects(self::exactly(2))
-            ->method('load')
-            ->withConsecutive(
-                [$configDir.'/services.yaml', null],
-                [$configDir.'/services_dev.yaml', null]
-            );
-
-        $kernel = $this->getMockForAbstractClass(AbstractKernel::class, ['dev', true]);
-        $kernel->registerContainerConfiguration($loader);
     }
 }

@@ -38,11 +38,11 @@ class Configuration
     private $configDir;
 
     /**
-     * Шаблон имени главного файла конфигурации.
+     * Список файлов конфигурации.
      *
-     * @var string|null
+     * @var string[]
      */
-    private $configFileTemplate;
+    private $configFiles = [];
 
     /**
      * Флаг режима отладки.
@@ -59,13 +59,6 @@ class Configuration
     private $environment = 'prod';
 
     /**
-     * Список дополнительных файлов конфигурации.
-     *
-     * @var string[]
-     */
-    private $extraConfigFiles = [];
-
-    /**
      * Папка журналов.
      *
      * @var string|null
@@ -80,17 +73,17 @@ class Configuration
     private $rootDir;
 
     /**
-     * Добавляет дополнительный файл конфигурации.
+     * Добавляет файл конфигурации.
      *
-     * @param string $path
+     * @param string $path Путь относительно папки конфигурации (см. getConfigDir()).
      *
      * @return $this
      *
-     * @since 0.1
+     * @since 0.4
      */
-    public function addExtraConfigFile($path)
+    public function addConfigFile($path)
     {
-        $this->extraConfigFiles[] = $path;
+        $this->configFiles[] = $path;
 
         return $this;
     }
@@ -134,15 +127,15 @@ class Configuration
     }
 
     /**
-     * Возвращает шаблон имени главного файла конфигурации.
+     * Возвращает список файлов конфигурации.
      *
-     * @return string|null
+     * @return string[] Пути к файлам относительно папки конфигурации (см. getConfigDir()).
      *
-     * @since 0.1
+     * @since 0.4
      */
-    public function getConfigFileTemplate()
+    public function getConfigFiles()
     {
-        return $this->configFileTemplate;
+        return $this->configFiles;
     }
 
     /**
@@ -155,18 +148,6 @@ class Configuration
     public function getEnvironment()
     {
         return $this->environment;
-    }
-
-    /**
-     * Возвращает список дополнительных файлов конфигурации.
-     *
-     * @return string[]
-     *
-     * @since 0.1
-     */
-    public function getExtraConfigFiles()
-    {
-        return $this->extraConfigFiles;
     }
 
     /**
@@ -233,24 +214,6 @@ class Configuration
     public function setConfigDir($configDir)
     {
         $this->configDir = $configDir;
-
-        return $this;
-    }
-
-    /**
-     * Задаёт шаблон имени главного файла конфигурации.
-     *
-     * Используйте «%s» для указания места подстановки имени окружения (prod, test, dev…).
-     *
-     * @param string $configFileTemplate
-     *
-     * @return $this
-     *
-     * @since 0.1
-     */
-    public function setConfigFileTemplate($configFileTemplate)
-    {
-        $this->configFileTemplate = $configFileTemplate;
 
         return $this;
     }

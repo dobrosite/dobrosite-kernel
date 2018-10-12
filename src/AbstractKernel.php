@@ -132,6 +132,7 @@ abstract class AbstractKernel extends Kernel implements KernelInterface
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $filenames = $this->getConfigurationFilenames();
+        print_r($filenames); die;
         foreach ($filenames as $filename) {
             $loader->load($filename);
         }
@@ -146,13 +147,33 @@ abstract class AbstractKernel extends Kernel implements KernelInterface
      */
     protected function getConfigurationFilenames()
     {
-        $files = [$this->getConfigDir().'/services.yaml'];
-
-        $path = $this->getConfigDir().'/services_'.$this->getEnvironment().'.yaml';
-        if (file_exists($path)) {
-            $files[] = $path;
+        if ($this->getEnvironment() === 'prod') {
+            $path = $this->getConfigDir().'/config.yaml';
+        } else {
+            $path = $this->getConfigDir().'/config_'.$this->getEnvironment().'.yaml';
         }
 
-        return $files;
+        if (file_exists($path)) {
+            return [$path];
+        }
+
+        return [];
+    }
+
+    /**
+     * Возвращает параметры ядра.
+     *
+     * @return array
+     *
+     * @since 0.4
+     */
+    protected function getKernelParameters()
+    {
+        return array_merge(
+            [
+                'kernel.config_dir' => $this->getConfigDir(),
+            ],
+            parent::getKernelParameters()
+        );
     }
 }

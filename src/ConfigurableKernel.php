@@ -19,11 +19,11 @@ namespace DobroSite\CMS\Kernel;
 class ConfigurableKernel extends AbstractKernel
 {
     /**
-     * Шаблон имени главного файла конфигурации.
+     * Дополнительные файлы конфигурации.
      *
-     * @var string
+     * @var string[]|null
      */
-    private $configFileTemplate = 'config.%s.yaml';
+    private $additionalConfigFiles = [];
 
     /**
      * Создаёт ядро.
@@ -54,23 +54,23 @@ class ConfigurableKernel extends AbstractKernel
             $this->configDir = $configuration->getConfigDir();
         }
 
-        if ($configuration->getConfigFileTemplate() !== null) {
-            $this->configFileTemplate = $configuration->getConfigFileTemplate();
+        foreach ($configuration->getConfigFiles() as $relativePath) {
+            $this->additionalConfigFiles[] = $this->getConfigDir().'/'.ltrim($relativePath, '/');
         }
     }
 
     /**
-     * Возвращает параметры ядра.
+     * Возвращает имена (включая путь) конфигурационных файлов.
      *
-     * @return array
+     * @return string[]
+     *
+     * @since 0.4
      */
-    protected function getKernelParameters()
+    protected function getConfigurationFilenames()
     {
         return array_merge(
-            [
-                'kernel.config_dir' => $this->getConfigDir(),
-            ],
-            parent::getKernelParameters()
+            parent::getConfigurationFilenames(),
+            $this->additionalConfigFiles
         );
     }
 }
