@@ -48,6 +48,7 @@ $service = ScriptKernel::getInstance()->getContainer()->get('...');
 <?php
 
 use DobroSite\CMS\Kernel\Configuration;
+use DobroSite\CMS\Kernel\ScriptKernel;
 
 require_once 'vendor/autoload.php';
 
